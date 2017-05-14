@@ -1,10 +1,14 @@
+// TODO: add range picker
+// TODO: autocomplete
+// TODO: url logic initialization
+// TODO: settings
+
 class AppController {
   constructor(
     DEFAULT_TIMEZONES,
     ApiService,
     localStorageService
   ) {
-
     this.deafults = DEFAULT_TIMEZONES;
     this.ApiService = ApiService;
     this.$ls = localStorageService;
