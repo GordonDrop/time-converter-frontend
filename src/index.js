@@ -1,2 +1,3 @@
 angular
-  .module('app', ['ui.router']);
+  .module('appConverter',
+    ['ui.router', 'LocalStorageModule']);

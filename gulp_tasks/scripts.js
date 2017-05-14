@@ -8,8 +8,6 @@ gulp.task('scripts', scripts);
 
 function scripts() {
   return gulp.src(conf.path.src('**/*.js'))
-    .pipe(eslint())
-    .pipe(eslint.format())
 
     .pipe(babel())
     .pipe(gulp.dest(conf.path.tmp()));

@@ -1,0 +1,93 @@
+<div class="container">
+
+  <div ng-if="$ctrl.loading"
+       class="application">
+    <div class="loader"></div>
+  </div>
+
+  <div class="application"
+       ng-if="!$ctrl.loading">
+    <header class="header">
+      <div class="header-sort header-item">
+        <i class="header-sort-btn fa fa-caret-up"
+           type="button">
+        </i>
+        <i class="header-sort-btn fa fa-caret-down"
+           type="button">
+        </i>
+      </div>
+
+      <div class="header-item header-search">
+        <form ng-submit="$ctrl.searchPlaces()"
+              NOVALIDATE>
+          <i class="header-search-icon fa fa-search"></i>
+          <input type="text"
+                 placeholder="Search By City"
+                 class="header-search-input"
+                 ng-model="$ctrl.placeQuery">
+        </form>
+      </div>
+
+      <button class="header-datepicker header-item"
+              type="button">
+        <i class="fa fa-calendar"></i>
+      </button>
+
+      <div class="header-date-range header-item">
+        <ul class="list-inline list-unstyled">
+          <li ng-repeat="date in [13,14,15,16,17,18,19]">
+            <button class="header-datepicker header-item"
+                    type="button">
+              {{date}}
+            </button>
+          </li>
+        </ul>
+      </div>
+
+      <button class="header-datepicker header-item"
+              type="button">
+        <i class="fa fa-cog"></i>
+      </button>
+    </header>
+
+    <div class="places-list">
+      <ul class="list-unstyled">
+        <li ng-repeat="location in $ctrl.locations track by $index"
+            class="places-list-item clearfix">
+          <div class="places-list-icons pull-left">
+            <i class="fa fa-remove"
+               ng-click="$ctrl.removeLocation($index)"
+               ng-show="$ctrl.locations.length > 0">
+            </i>
+            <br>
+            <i class="fa fa-home"
+               ng-click="$ctrl.markAsHome($index)"
+               ng-show="!location.isHome && $ctrl.locations.length > 0">
+            </i>
+          </div>
+
+          <div class="places-list-time-offset pull-left">
+            <span ng-show="!location.isHome">-3</span>
+            <span ng-show="location.isHome"
+                  class="fa fa-home"></span>
+          </div>
+
+          <div class="places-list-item-desc pull-left">
+            <span class="places-list-item-city"><b>{{location.city}}</b></span>
+            <span class="places-list-item-tz">{{location.timezone.timeZoneId}}</span><br>
+            <span class="places-list-item-country">{{location.country}}</span>
+          </div>
+
+          <ul class="list-unstyled list-inline">
+            <li ng-repeat="time in $ctrl.timeRange()">
+              <button class="header-datepicker header-item"
+                      type="button">
+                {{time}}
+              </button>
+            </li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>

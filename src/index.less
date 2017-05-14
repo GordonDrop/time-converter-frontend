@@ -5,16 +5,53 @@ body {
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
 input:focus { outline: none; }
+.clearfix:after { content: ""; display: table; clear: both; }
 
+.absolute-center { top: 0; left: 0; right: 0; bottom: 0; margin: auto; position: absolute; }
 .list-inline li { display: inline-block; vertical-align: middle; }
 .list-unstyled {list-style: none;}
+.pull-left { float: left; }
 
-.container { width: 960px; margin: 0 auto;}
+.container { width: 960px; margin: 0 auto; }
 
+.application { min-height: 240px; position: relative; border: 1px solid #eee; border-radius: 3px 3px 0 0;
+  background-color: #fff;  margin-top: 40px; }
+
+.load-spinner {
+  width: 49px; height: 49px; border: 3px solid #ccc;
+  border-radius: 50%; border-left-color: #eee; border-right-color: #eee;
+  animation: cssload-spin 1400ms infinite linear;
+}
+
+@keyframes cssload-spin {
+  100%{ transform: rotate(360deg); transform: rotate(360deg); }
+}
+
+@-o-keyframes cssload-spin {
+  100%{ -o-transform: rotate(360deg); transform: rotate(360deg); }
+}
+
+@-ms-keyframes cssload-spin {
+  100%{ -ms-transform: rotate(360deg); transform: rotate(360deg); }
+}
+
+@-webkit-keyframes cssload-spin {
+  100%{ -webkit-transform: rotate(360deg); transform: rotate(360deg); }
+}
+
+@-moz-keyframes cssload-spin {
+  100%{ -moz-transform: rotate(360deg); transform: rotate(360deg); }
+}
+
+
+.loader {
+  .absolute-center;
+  .load-spinner;
+}
 
 // header
 .header {
-  border: 1px solid #ccc; color: black; background: #eee; padding: 5px; margin-top: 40px;
+  border-bottom: 1px solid #ccc; color: black; background: #eee; padding: 5px;
 
   &-item { display: inline-block; vertical-align: top; }
 }
@@ -25,7 +62,7 @@ input:focus { outline: none; }
 }
 
 .header-search {
-  border: none; background-color: white; border-radius: 3px; padding-left: 30px;
+  border: none; background-color: white; padding-left: 30px;
   position: relative;
   &-icon { color: gray; vertical-align: middle; position: absolute; top: 8px; left: 8px; }
   &-input { width: 240px; height: 35px; font-size: 16px; line-height: 18px; border: none; }
@@ -39,6 +76,33 @@ input:focus { outline: none; }
 
 // places list
 
-.places-list { background-color: #fff; border: 1px solid #ccc; border-bottom: none;
-  height: 200px;
+@list_item_height: 60px;
+.places-list { background-color: #fff; position: relative; }
+
+.places-list-item {
+  width: 100%; border-top: 1px solid #ccc; min-height: @list_item_height; position: relative;
+  padding: 5px;
+  &:nth-child(even) { background-color: rgba(238,238,238,0.6); }
+  &:first-child { border: none; }
 }
+
+.places-list-icons {
+  width: 60px; font-size: 18px; text-align: center; position: relative;
+  .fa { cursor: pointer; position: absolute; top: 10px; right: 0; left: 0;
+    margin: auto; }
+  .fa:hover { color: tomato; }
+  .fa-home { top: 30px; }
+}
+
+.places-list-time-offset { width: 40px; font-size: 18px;
+ color: #ffb500; text-align: center; line-height: @list_item_height;
+
+  .fa { color: black; }
+}
+
+.places-list-item-desc { width: 200px; cursor: move; padding: 5px; }
+
+.places-list-item-city { font-size: 20px; vertical-align: middle; }
+.places-list-item-tz { display: inline-block; padding: 3px; background-color: #eee;
+  border-radius: 3px; font-size: 10px; border: 1px solid #ccc; }
+.places-list-item-country { font-size: 12px; }

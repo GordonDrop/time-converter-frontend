@@ -1,5 +1,5 @@
 angular
-  .module('app')
+  .module('appConverter')
   .config(routesConfig);
 
 /** @ngInject */
