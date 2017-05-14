@@ -20,13 +20,31 @@ class AppController {
   }
 
   $onInit() {
-    // TODO: ADD other init strataagies
+    let savedLocations = this.getFromLocalStorage();
+    let initStrategy;
+
+    if (savedLocations) {
+      initStrategy = 'setFromLocalStorage';
+    } else {
+      initStrategy = 'setDefaults';
+    }
+
+    this[initStrategy]();
+  }
+
+  initData(locations) {
+    this.locations = locations;
+    this.setBaseLocation(0);
+    this.saveToLocalStorage();
+  }
+
+  guessTimezone() {}
+
+  setDefaults() {
     this.ApiService.getLocations(this.deafults)
       .then(
         response => {
-          this.locations = response;
-          this.markAsHome(0);
-          this.saveToLocalStorage();
+          this.initData(response);
           this.toggleLoading();
         },
         error => {
@@ -35,11 +53,10 @@ class AppController {
       )
   }
 
-  guessTimezone() {}
-
-  setDefaults() {}
-
-  setFromLocalStorage() {}
+  setFromLocalStorage() {
+    this.initData(this.getFromLocalStorage());
+    this.toggleLoading();
+  }
 
   setSetUrlState() {}
 
@@ -47,14 +64,15 @@ class AppController {
     this.loading = !this.loading;
   }
 
-  markAsHome(index) {
+  setBaseLocation(index) {
     this.locations = this.locations.map(location => {
       location.isHome = false;
       return location;
     });
 
     this.locations[index].isHome = true;
-    this.saveToLocalStorage()
+    this.baseTimeZone = this.locations[index].timezone.timeZoneId;
+    this.saveToLocalStorage();
   }
 
   addLocation(location) {
@@ -67,7 +85,7 @@ class AppController {
 
     this.locations.splice(locationIndex, 1);
     if (isHome) {
-      this.markAsHome(0);
+      this.setBaseLocation(0);
     }
     this.saveToLocalStorage()
   }
@@ -76,8 +94,12 @@ class AppController {
     this.$ls.set('locations', this.locations);
   }
 
-  timeRange() {
-    return _.range(24);
+  getFromLocalStorage() {
+    return this.$ls.get('locations');
+  }
+
+  timeRange(value) {
+    return _.range(value);
   }
 }
 

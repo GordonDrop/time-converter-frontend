@@ -48,6 +48,12 @@
               type="button">
         <i class="fa fa-cog"></i>
       </button>
+
+      <a class="header-link header-item"
+         href
+         type="button">
+        Link to this view
+      </a>
     </header>
 
     <div class="places-list">
@@ -61,25 +67,29 @@
             </i>
             <br>
             <i class="fa fa-home"
-               ng-click="$ctrl.markAsHome($index)"
+               ng-click="$ctrl.setBaseLocation($index)"
                ng-show="!location.isHome && $ctrl.locations.length > 0">
             </i>
           </div>
 
           <div class="places-list-time-offset pull-left">
-            <span ng-show="!location.isHome">-3</span>
+            <span ng-show="!location.isHome">
+              {{location.timezone.timeZoneId|timezoneDiff:$ctrl.baseTimeZone}}
+            </span>
             <span ng-show="location.isHome"
                   class="fa fa-home"></span>
           </div>
 
           <div class="places-list-item-desc pull-left">
-            <span class="places-list-item-city"><b>{{location.city}}</b></span>
-            <span class="places-list-item-tz">{{location.timezone.timeZoneId}}</span><br>
-            <span class="places-list-item-country">{{location.country}}</span>
+            <span class="places-list-item-city"><b>{{location.city}}</b></span><br>
+            <span class="places-list-item-country">{{location.country}}</span><br>
+            <span class="places-list-item-tz">{{location.timezone.timeZoneId}}</span> -
+            <span class="places-list-item-country">{{location.timezone.timeZoneName}}</span>
           </div>
 
           <ul class="list-unstyled list-inline">
-            <li ng-repeat="time in $ctrl.timeRange()">
+            <li ng-repeat="time in $ctrl.timeRange(24)"
+                class="range-item">
               <button class="header-datepicker header-item"
                       type="button">
                 {{time}}

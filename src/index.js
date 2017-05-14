@@ -1,3 +1,3 @@
 angular
   .module('appConverter',
-    ['ui.router', 'LocalStorageModule']);
+    ['ui.router', 'LocalStorageModule', 'angularMoment']);
