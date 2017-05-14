@@ -1,3 +1,44 @@
 body {
-  background-color: lightgrey;
+  background-color: grey;
+  font-family: Helvetica;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+input:focus { outline: none; }
+
+.list-inline li { display: inline-block; vertical-align: middle; }
+.list-unstyled {list-style: none;}
+
+.container { width: 960px; margin: 0 auto;}
+
+
+// header
+.header {
+  border: 1px solid #ccc; color: black; background: #eee; padding: 5px; margin-top: 40px;
+
+  &-item { display: inline-block; vertical-align: top; }
+}
+
+.header-sort {
+  &-btn { cursor: pointer; font-size: 24px; line-height: 35px; vertical-align: middle; }
+  &-btn:hover { color: tomato; }
+}
+
+.header-search {
+  border: none; background-color: white; border-radius: 3px; padding-left: 30px;
+  position: relative;
+  &-icon { color: gray; vertical-align: middle; position: absolute; top: 8px; left: 8px; }
+  &-input { width: 240px; height: 35px; font-size: 16px; line-height: 18px; border: none; }
+}
+
+.header-datepicker { width: 35px; height: 35px; cursor: pointer; font-size: 18px; }
+
+.header-date-range {
+  li { margin-right: 5px; }
+}
+
+// places list
+
+.places-list { background-color: #fff; border: 1px solid #ccc; border-bottom: none;
+  height: 200px;
 }
