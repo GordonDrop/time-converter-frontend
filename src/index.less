@@ -100,9 +100,29 @@ input:focus { outline: none; }
   .fa { color: black; }
 }
 
-.places-list-item-desc { width: 235px; cursor: move; padding: 5px; }
+.places-list-item-desc { width: 235px; cursor: move; padding: 5px;
+  overflow: hidden; white-space: nowrap; }
 
 .places-list-item-city { font-size: 20px; vertical-align: middle; }
 .places-list-item-tz { display: inline-block; padding: 3px; background-color: #eee;
   border-radius: 3px; font-size: 10px; border: 1px solid #ccc; }
 .places-list-item-country { font-size: 12px; }
+
+
+// range-item
+
+.range-item {
+  width: 29px; height: 29px; display: inline-block; color: #8BA3C9; background-color: #EDFBFF;
+  line-height: 28px; text-align: center; margin-top: 25px; position: relative;
+  border-top: 1px solid #8BA3C9; border-bottom: 1px solid #8BA3C9;
+
+  &.start { background-color: #8BA3C9; color: white;  border-radius: 3px 0 0 3px;
+    border-left: 1px solid #EDFBFF; font-size: 10px; line-height: normal; }
+
+  &.end { background-color: #8BA3C9; color: white;  border-radius: 0 3px 3px 0;
+    border-right: 1px solid #EDFBFF; }
+
+  &.start .day-of-week { position: absolute; top: -16px; left: 0; right: 0; color: black; }
+  &.start .day-of-month { position: absolute; top: 2px; left: 0; right: 0; }
+  &.start .month { position: absolute; top: 14px; left: 0; right: 0; }
+}

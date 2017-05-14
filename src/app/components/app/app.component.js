@@ -4,12 +4,12 @@ class AppController {
     ApiService,
     localStorageService
   ) {
-    'ngInject';
 
     this.deafults = DEFAULT_TIMEZONES;
     this.ApiService = ApiService;
     this.$ls = localStorageService;
     this.loading = true;
+    this.baseTime = Date.now();
 
     this.initStrategies = {
       guessTimezone: 'guessTimezone',
@@ -35,7 +35,49 @@ class AppController {
   initData(locations) {
     this.locations = locations;
     this.setBaseLocation(0);
+    this.createUTCRange();
     this.saveToLocalStorage();
+  }
+
+  createUTCRange() {
+    let start = moment
+      .tz(this.baseTime, this.baseTimeZone)
+      .startOf('day')
+      .valueOf();
+
+    let current = start;
+    this.utcRange = [];
+
+    _.times(24, (time) => {
+      current = moment.tz(start, this.baseTimeZone).add(time, 'hour').valueOf();
+      this.utcRange.push(current);
+    });
+
+    console.log(this.utcRange);
+  }
+
+  isDayStart(timestamp, location) {
+    let tz = location.timezone.timeZoneId;
+    let dayStart = moment
+      .tz(this.baseTime, tz)
+      .startOf('day')
+      .format('H');
+
+    let time = moment.tz(timestamp, tz).format('H');
+
+    return time === dayStart;
+  }
+
+  isDayEnd(timestamp, location) {
+    let tz = location.timezone.timeZoneId;
+    let dayEnd = moment
+      .tz(this.baseTime, tz)
+      .endOf('day')
+      .format('H');
+
+    let time = moment.tz(timestamp, tz).format('H');
+
+    return time === dayEnd;
   }
 
   guessTimezone() {}
@@ -81,7 +123,7 @@ class AppController {
   }
 
   removeLocation(locationIndex) {
-    let isHome = this.locations[locationIndex];
+    let isHome = this.locations[locationIndex].isHome;
 
     this.locations.splice(locationIndex, 1);
     if (isHome) {
@@ -96,10 +138,6 @@ class AppController {
 
   getFromLocalStorage() {
     return this.$ls.get('locations');
-  }
-
-  timeRange(value) {
-    return _.range(value);
   }
 }
 

@@ -18,6 +18,7 @@
       </div>
 
       <div class="header-item header-search">
+        <!-- TODO: MOVE TO DIRECTIVE -->
         <form ng-submit="$ctrl.searchPlaces()"
               NOVALIDATE>
           <i class="header-search-icon fa fa-search"></i>
@@ -34,6 +35,7 @@
       </button>
 
       <div class="header-date-range header-item">
+        <!-- TODO: MOVE TO DIRECTIVE -->
         <ul class="list-inline list-unstyled">
           <li ng-repeat="date in [13,14,15,16,17,18,19]">
             <button class="header-datepicker header-item"
@@ -49,6 +51,7 @@
         <i class="fa fa-cog"></i>
       </button>
 
+      <!-- TODO: MOVE TO DIRECTIVE -->
       <a class="header-link header-item"
          href
          type="button">
@@ -83,17 +86,34 @@
           <div class="places-list-item-desc pull-left">
             <span class="places-list-item-city"><b>{{location.city}}</b></span><br>
             <span class="places-list-item-country">{{location.country}}</span><br>
-            <span class="places-list-item-tz">{{location.timezone.timeZoneId}}</span> -
+            <span class="places-list-item-tz">{{location.timezone.abbr}}</span> -
             <span class="places-list-item-country">{{location.timezone.timeZoneName}}</span>
           </div>
 
           <ul class="list-unstyled list-inline">
-            <li ng-repeat="time in $ctrl.timeRange(24)"
+
+            <!-- TODO: MOVE TO DIRECTIVE -->
+            <li ng-repeat="timestamp in $ctrl.utcRange track by $index"
+                ng-class="{
+                  'start': $ctrl.isDayStart(timestamp, location),
+                  'end': $ctrl.isDayEnd(timestamp, location)
+                }"
                 class="range-item">
-              <button class="header-datepicker header-item"
-                      type="button">
-                {{time}}
-              </button>
+              <span ng-show="!$ctrl.isDayStart(timestamp, location)">
+                {{timestamp|amTimezone:location.timezone.timeZoneId|amDateFormat:'H'}}
+              </span>
+
+              <span ng-show="$ctrl.isDayStart(timestamp, location)">
+                <span class="day-of-week">
+                  {{timestamp|amTimezone:location.timezone.timeZoneId|amDateFormat:'ddd'}}
+                </span>
+                <span class="day-of-month">
+                  {{timestamp|amTimezone:location.timezone.timeZoneId|amDateFormat:'MMM'}}
+                </span>
+                <span class="month">
+                  {{timestamp|amTimezone:location.timezone.timeZoneId|amDateFormat:'D'}}
+                </span>
+              </span>
             </li>
           </ul>
         </li>
