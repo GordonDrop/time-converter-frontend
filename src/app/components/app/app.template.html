@@ -19,14 +19,8 @@
 
       <div class="header-item header-search">
         <!-- TODO: MOVE TO DIRECTIVE -->
-        <form ng-submit="$ctrl.searchPlaces()"
-              NOVALIDATE>
-          <i class="header-search-icon fa fa-search"></i>
-          <input type="text"
-                 placeholder="Search By City"
-                 class="header-search-input"
-                 ng-model="$ctrl.placeQuery">
-        </form>
+        <search-locations locations="$ctrl.locations">
+        </search-locations>
       </div>
 
       <button class="header-datepicker header-item"

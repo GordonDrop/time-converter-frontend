@@ -5,6 +5,7 @@ angular
 function ApiService($http) {
   return {
     getLocations: getLocations,
+    searchLocations: searchLocations,
     formatTimezone: formatTimezone
   };
 
@@ -26,6 +27,15 @@ function ApiService($http) {
     };
 
     return $http.get(requestUrl('/locations'), config)
+      .then(formatTimezone);
+  }
+
+  function searchLocations(params) {
+    let config = {
+      params: params
+    };
+
+    return $http.get(requestUrl('/locations-search'), config)
       .then(formatTimezone);
   }
 }

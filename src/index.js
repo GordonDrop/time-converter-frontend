@@ -1,3 +1,9 @@
 angular
   .module('appConverter',
-    ['ui.router', 'LocalStorageModule', 'angularMoment']);
+    [
+      'ui.router',
+      'LocalStorageModule',
+      'angularMoment',
+      'angucomplete',
+      'angular-click-outside'
+    ]);

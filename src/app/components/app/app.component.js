@@ -1,12 +1,12 @@
-// TODO: add range picker
 // TODO: autocomplete
+// TODO: add range picker
 // TODO: baseTime picker
 // TODO: url logic initialization
 // TODO: settings
 // TODO: change time format
 // TODO: add pwa
 
-class AppController {
+class Controller {
   constructor(
     DEFAULT_TIMEZONES,
     ApiService,
@@ -29,6 +29,7 @@ class AppController {
   }
 
   $onInit() {
+    // TODO: deep validation
     let savedLocations = this.getFromLocalStorage();
     let initStrategy;
 
@@ -131,7 +132,7 @@ class AppController {
 
 const componentDefinition = {
   templateUrl: 'app/components/app/app.template.html',
-  controller: AppController
+  controller: Controller
 };
 
 angular

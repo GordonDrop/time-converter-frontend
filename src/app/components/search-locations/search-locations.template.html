@@ -1,0 +1,42 @@
+<form ng-submit="$ctrl.searchPlaces()"
+      class="header-search-form"
+      NOVALIDATE>
+  <i class="header-search-icon fa fa-search"
+     ng-show="!$ctrl.loading"></i>
+
+  <div class="header-search-loader"
+       ng-show="$ctrl.loading">
+    <div class="loader"></div>
+  </div>
+
+  <input type="text"
+         placeholder="Search By City"
+         name="query"
+         ng-change="$ctrl.onChange()"
+         class="header-search-input"
+         ng-model="$ctrl.query">
+
+  <ul class="header-search-results list-unstyled"
+      click-outside="$ctrl.hideList()"
+      ng-show="$ctrl.searchResults.length">
+    <li class="clearfix"
+        ng-click="$ctrl.addLocation(location)"
+        ng-repeat="location in $ctrl.searchResults track by $index">
+      <span class="pull-left">
+        {{location.country}}, {{location.city}}
+      </span>
+      <span class="pull-right">
+        {{$ctrl.searchTime|amTimezone:location.timezone.timeZoneId|amDateFormat:'HH:MM'}}
+      </span>
+    </li>
+  </ul>
+
+  <ul class="header-search-results list-unstyled"
+      click-outside="$ctrl.hideList()"
+      ng-show="$ctrl.searchResultsEmpty">
+    <li class="clearfix">
+      <b><i>No matches found.</i></b>
+      <i>Try shortening or changing the query.</i>
+    </li>
+  </ul>
+</form>
