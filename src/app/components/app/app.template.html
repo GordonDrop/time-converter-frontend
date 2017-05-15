@@ -77,7 +77,7 @@
 
           <div class="places-list-time-offset pull-left">
             <span ng-show="!location.isHome">
-              {{location.timezone.timeZoneId|timezoneDiff:$ctrl.baseTimeZone}}
+              {{location.relativeOffset.viewValue}}
             </span>
             <span ng-show="location.isHome"
                   class="fa fa-home"></span>
@@ -95,15 +95,15 @@
             <!-- TODO: MOVE TO DIRECTIVE -->
             <li ng-repeat="timestamp in $ctrl.utcRange track by $index"
                 ng-class="{
-                  'start': $ctrl.isDayStart(timestamp, location),
-                  'end': $ctrl.isDayEnd(timestamp, location)
+                  'start': $ctrl.isDayBoundary(timestamp, location, 'start'),
+                  'end': $ctrl.isDayBoundary(timestamp, location, 'end')
                 }"
                 class="range-item">
-              <span ng-show="!$ctrl.isDayStart(timestamp, location)">
+              <span ng-show="!$ctrl.isDayBoundary(timestamp, location, 'start')">
                 {{timestamp|amTimezone:location.timezone.timeZoneId|amDateFormat:'H'}}
               </span>
 
-              <span ng-show="$ctrl.isDayStart(timestamp, location)">
+              <span ng-show="$ctrl.isDayBoundary(timestamp, location, 'start')">
                 <span class="day-of-week">
                   {{timestamp|amTimezone:location.timezone.timeZoneId|amDateFormat:'ddd'}}
                 </span>

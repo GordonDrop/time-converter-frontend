@@ -76,11 +76,11 @@ input:focus { outline: none; }
 
 // places list
 
-@list_item_height: 60px;
+@list_item_height: 80px;
 .places-list { background-color: #fff; position: relative; }
 
 .places-list-item {
-  width: 100%; border-top: 1px solid #ccc; min-height: @list_item_height; position: relative;
+  width: 100%; border-top: 1px solid #ccc; height: @list_item_height; position: relative;
   padding: 5px;
   &:nth-child(even) { background-color: rgba(238,238,238,0.6); }
   &:first-child { border: none; }
@@ -88,10 +88,10 @@ input:focus { outline: none; }
 
 .places-list-icons {
   width: 36px; font-size: 18px; text-align: center; position: relative;
-  .fa { cursor: pointer; position: absolute; top: 10px; right: 0; left: 0;
+  .fa { cursor: pointer; position: absolute; top: 24px; right: 0; left: 0;
     margin: auto; }
   .fa:hover { color: tomato; }
-  .fa-home { top: 30px; }
+  .fa-home { top: 42px; }
 }
 
 .places-list-time-offset { width: 40px; font-size: 18px;
@@ -113,7 +113,7 @@ input:focus { outline: none; }
 
 .range-item {
   width: 29px; height: 29px; display: inline-block; color: #8BA3C9; background-color: #EDFBFF;
-  line-height: 28px; text-align: center; margin-top: 25px; position: relative;
+  line-height: 28px; text-align: center; margin-top: 22px; position: relative;
   border-top: 1px solid #8BA3C9; border-bottom: 1px solid #8BA3C9;
 
   &.start { background-color: #8BA3C9; color: white;  border-radius: 3px 0 0 3px;

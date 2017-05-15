@@ -1,16 +1,21 @@
 // TODO: add range picker
 // TODO: autocomplete
+// TODO: baseTime picker
 // TODO: url logic initialization
 // TODO: settings
+// TODO: change time format
+// TODO: add pwa
 
 class AppController {
   constructor(
     DEFAULT_TIMEZONES,
     ApiService,
+    DateTimeService,
     localStorageService
   ) {
     this.deafults = DEFAULT_TIMEZONES;
     this.ApiService = ApiService;
+    this.DateTimeService = DateTimeService;
     this.$ls = localStorageService;
     this.loading = true;
     this.baseTime = Date.now();
@@ -36,61 +41,15 @@ class AppController {
     this[initStrategy]();
   }
 
-  initData(locations) {
-    this.locations = locations;
-    this.setBaseLocation(0);
-    this.createUTCRange();
-    this.saveToLocalStorage();
-  }
-
-  createUTCRange() {
-    let start = moment
-      .tz(this.baseTime, this.baseTimeZone)
-      .startOf('day')
-      .valueOf();
-
-    let current = start;
-    this.utcRange = [];
-
-    _.times(24, (time) => {
-      current = moment.tz(start, this.baseTimeZone).add(time, 'hour').valueOf();
-      this.utcRange.push(current);
-    });
-
-    console.log(this.utcRange);
-  }
-
-  isDayStart(timestamp, location) {
-    let tz = location.timezone.timeZoneId;
-    let dayStart = moment
-      .tz(this.baseTime, tz)
-      .startOf('day')
-      .format('H');
-
-    let time = moment.tz(timestamp, tz).format('H');
-
-    return time === dayStart;
-  }
-
-  isDayEnd(timestamp, location) {
-    let tz = location.timezone.timeZoneId;
-    let dayEnd = moment
-      .tz(this.baseTime, tz)
-      .endOf('day')
-      .format('H');
-
-    let time = moment.tz(timestamp, tz).format('H');
-
-    return time === dayEnd;
-  }
-
   guessTimezone() {}
 
   setDefaults() {
     this.ApiService.getLocations(this.deafults)
       .then(
-        response => {
-          this.initData(response);
+        locations => {
+          this.locations = locations;
+          this.setBaseLocation(0);
+          this.utcRange = this.DateTimeService.createUtcRange(this.baseTime, this.baseTimeZone);
           this.toggleLoading();
         },
         error => {
@@ -100,8 +59,33 @@ class AppController {
   }
 
   setFromLocalStorage() {
-    this.initData(this.getFromLocalStorage());
+    this.locations = this.getFromLocalStorage();
+    let baseIndex = _.findIndex(this.locations, location => location.isHome);
+    this.setBaseLocation(baseIndex);
+    this.utcRange = this.DateTimeService.createUtcRange(this.baseTime, this.baseTimeZone);
     this.toggleLoading();
+  }
+
+  setRelativeOffsets() {
+    this.locations = this.locations.map(location => {
+      let tz = location.timezone.timeZoneId;
+      location.relativeOffset = this.DateTimeService.getRelativeOffset(tz, this.baseTimeZone);
+      return location;
+    });
+  }
+
+  isDayBoundary(timestamp, location, boundary) {
+    let method = boundary === 'start' ? 'startOf' : 'endOf';
+
+    let tz = location.timezone.timeZoneId;
+    let boundaryTime = moment
+      .tz(this.baseTime, tz)
+      [method]('day')
+      .format('H');
+
+    let time = moment.tz(timestamp, tz).format('H');
+
+    return time === boundaryTime;
   }
 
   setSetUrlState() {}
@@ -115,9 +99,9 @@ class AppController {
       location.isHome = false;
       return location;
     });
-
     this.locations[index].isHome = true;
     this.baseTimeZone = this.locations[index].timezone.timeZoneId;
+    this.setRelativeOffsets();
     this.saveToLocalStorage();
   }
 
