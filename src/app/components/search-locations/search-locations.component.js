@@ -8,12 +8,12 @@ class Controller {
   constructor(
     ApiService,
     localStorageService,
-    $timeout
+    DateTimeService
   ) {
     this.ApiService = ApiService;
     this.$ls = localStorageService;
     this.loading = false;
-    this.$timeout = $timeout;
+    this.DateTimeService = DateTimeService;
     this.searchResults = [];
     this.searchResultsEmpty = false;
     this.lastSearch = Date.now();
@@ -38,11 +38,12 @@ class Controller {
     this.toggleLoading();
     this.searchResultsEmpty = false;
 
-    this.$timeout(() => {
-      this.searchResults = this.$ls.get('locations');
-      this.searchResultsEmpty = this.searchResults.length < 1;
-      this.searchTime = Date.now();
-    })
+    this.ApiService.searchLocations({q: this.query})
+      .then(locations => {
+        this.searchResults = locations;
+        this.searchResultsEmpty = this.searchResults.length < 1;
+        this.searchTime = Date.now();
+      });
   }
 
   hideList() {
@@ -55,9 +56,13 @@ class Controller {
   }
 
   addLocation(location) {
+    console.log(this);
     // TODO: if locations are equal and isHome, than both should be home
+    let tz = location.timezone.timeZoneId;
+    location.relativeOffset = this.DateTimeService.getRelativeOffset(tz, this.baseTz);
     this.locations.push(location);
     this.$ls.set('locations', this.locations);
+    this.hideList();
   }
 }
 
@@ -65,7 +70,8 @@ const componentDefinition = {
   templateUrl: 'app/components/search-locations/search-locations.template.html',
   controller: Controller,
   bindings: {
-    locations: '='
+    locations: '=',
+    baseTz: '<'
   }
 };
 

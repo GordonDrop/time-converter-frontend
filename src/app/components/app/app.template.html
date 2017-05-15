@@ -18,8 +18,9 @@
       </div>
 
       <div class="header-item header-search">
-        <!-- TODO: MOVE TO DIRECTIVE -->
-        <search-locations locations="$ctrl.locations">
+        <search-locations
+          base-tz="$ctrl.baseTimeZone"
+          locations="$ctrl.locations">
         </search-locations>
       </div>
 
