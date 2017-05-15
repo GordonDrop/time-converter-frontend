@@ -1,0 +1,43 @@
+<div class="header-datepicker header-item">
+  <input type="text"
+         class="form-control"
+         uib-datepicker-popup
+         datepicker-options="$ctrl.datepickerOptions"
+         ng-change="$ctrl.changeDate()"
+         ng-model="$ctrl.dt"
+         is-open="$ctrl.isDatepickerOpened"/>
+
+  <button class="header-datepicker header-item"
+          ng-click="$ctrl.openDatepicker()"
+          type="button">
+    <i class="fa fa-calendar"></i>
+  </button>
+</div>
+
+<div class="header-date-range header-item">
+  <ul class="list-inline list-unstyled">
+    <li ng-repeat="date in $ctrl.daysRange">
+      <button class="header-day-of-week"
+              ng-class="{
+              'is-active': $ctrl.isSelected(date),
+              'is-reversable': $ctrl.isSelected(date) && $ctrl.prevBaseTime,
+              'is-weekend': $ctrl.isWeekend(date)
+            }"
+              ng-click="$ctrl.selectBaseTime(date)"
+              type="button">
+      <span ng-show="!$ctrl.isSelected(date)">
+        {{date|amTimezone:$ctrl.baseTimeZone|amDateFormat:'ddd, DD'}}
+      </span>
+
+        <span ng-show="$ctrl.isSelected(date)">
+        {{date|amTimezone:$ctrl.baseTimeZone|amDateFormat:'ddd, MMM DD'}}
+      </span>
+
+        <span ng-show="$ctrl.isSelected(date) && $ctrl.prevBaseTime"
+              ng-click="$ctrl.undo($event)"
+              class="reverse-btn fa fa-undo">
+      </span>
+      </button>
+    </li>
+  </ul>
+</div>

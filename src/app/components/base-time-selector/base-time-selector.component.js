@@ -5,10 +5,16 @@ class Controller {
   ) {
     this.$ls = localStorageService;
     this.DateTimeService = DateTimeService;
+
+    this.isDatepickerOpened = false;
+    this.datepickerOptions ={
+      showWeeks: false
+    };
   }
 
   $onInit() {
     this.createRange();
+    this.dt = this.baseTime;
   }
 
   createRange() {
@@ -21,6 +27,14 @@ class Controller {
 
   isWeekend(date) {
     return this.DateTimeService.isWeekend(date, this.baseTimeZone);
+  }
+
+  openDatepicker() {
+    this.isDatepickerOpened = true;
+  }
+
+  changeDate() {
+    this.selectBaseTime(this.dt);
   }
 
   selectBaseTime(date) {
@@ -44,7 +58,7 @@ class Controller {
 }
 
 const componentDefinition = {
-  templateUrl: 'app/components/week-range/week-range.template.html',
+  templateUrl: 'app/components/base-time-selector/base-time-selector.template.html',
   controller: Controller,
   bindings: {
     baseTime: '=',
@@ -55,4 +69,4 @@ const componentDefinition = {
 
 angular
   .module('appConverter')
-  .component('weekRange', componentDefinition);
+  .component('baseTimeSelector', componentDefinition);

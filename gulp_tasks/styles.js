@@ -4,6 +4,7 @@ const sourcemaps = require('gulp-sourcemaps');
 const less = require('gulp-less');
 const postcss = require('gulp-postcss');
 const autoprefixer = require('autoprefixer');
+const path = require('path');
 
 const conf = require('../conf/gulp.conf');
 
@@ -17,4 +18,13 @@ function styles() {
     .pipe(sourcemaps.write())
     .pipe(gulp.dest(conf.path.tmp()))
     .pipe(browserSync.stream());
+}
+
+gulp.task('fonts', fonts);
+function fonts(){
+  return gulp.src([
+    'bower_components/font-awesome/fonts/*',
+    'bower_components/bootstrap/fonts/*'
+  ])
+  .pipe(gulp.dest(path.join(conf.path.dist(), '/fonts/')));
 }

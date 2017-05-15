@@ -4,6 +4,6 @@ angular
       'ui.router',
       'LocalStorageModule',
       'angularMoment',
-      'angucomplete',
-      'angular-click-outside'
+      'angular-click-outside',
+      'ui.bootstrap'
     ]);

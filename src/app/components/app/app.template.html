@@ -1,4 +1,4 @@
-<div class="container">
+<div class="container-fixed">
 
   <div ng-if="$ctrl.loading"
        class="application">
@@ -24,20 +24,12 @@
         </search-locations>
       </div>
 
-      <button class="header-datepicker header-item"
-              type="button">
-        <i class="fa fa-calendar"></i>
-      </button>
+      <base-time-selector base-time="$ctrl.baseTime"
+                  hours-range="$ctrl.utcRange"
+                  base-time-zone="$ctrl.baseTimeZone">
+      </base-time-selector>
 
-      <div class="header-date-range header-item">
-        <!-- TODO: MOVE TO DIRECTIVE -->
-        <week-range base-time="$ctrl.baseTime"
-                    hours-range="$ctrl.utcRange"
-                    base-time-zone="$ctrl.baseTimeZone">
-        </week-range>
-      </div>
-
-      <button class="header-datepicker header-item"
+      <button class="header-btn header-item"
               type="button">
         <i class="fa fa-cog"></i>
       </button>

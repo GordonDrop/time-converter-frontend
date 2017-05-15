@@ -1,3 +1,6 @@
+@import '../bower_components/bootstrap/less/bootstrap';
+
+
 body {
   background-color: grey;
   font-family: Helvetica;
@@ -8,12 +11,12 @@ input:focus { outline: none; }
 .clearfix:after { content: ""; display: table; clear: both; }
 
 .absolute-center { top: 0; left: 0; right: 0; bottom: 0; margin: auto; position: absolute; }
-.list-inline li { display: inline-block; vertical-align: middle; }
-.list-unstyled {list-style: none;}
+.list-inline li { display: inline-block; vertical-align: middle; margin-right: 0; }
+.list-unstyled {list-style: none; margin: 0; }
 .pull-left { float: left; }
 .pull-right { float: right; }
 
-.container { width: 1024px; margin: 0 auto; }
+.container-fixed { width: 1024px; margin: 0 auto; }
 
 .application { min-height: 240px; position: relative; border: 1px solid #eee; border-radius: 3px 3px 0 0;
   background-color: #fff;  margin-top: 40px; }
@@ -48,6 +51,13 @@ input:focus { outline: none; }
 .loader {
   .absolute-center;
   .load-spinner;
+}
+
+.uib-datepicker-popup {
+  .dropdown-menu { top: 35px !important; }
+
+  .btn-group > .btn:last-child:not(:first-child),
+  .btn-group > .dropdown-toggle:not(:first-child) { display: none; }
 }
 
 // header
@@ -85,10 +95,16 @@ input:focus { outline: none; }
 
 .header-search-form { position: relative; padding-left: 30px; }
 
-.header-datepicker { width: 35px; height: 35px; cursor: pointer; font-size: 18px; vertical-align: middle; }
+.header-datepicker {
+  width: 35px; height: 35px; cursor: pointer; font-size: 18px; vertical-align: middle;
+  position: relative;
+  .form-control { display: none; }
+}
+
+.header-btn { width: 35px; height: 35px; cursor: pointer; font-size: 18px; vertical-align: middle; }
 .header-link { line-height: 35px; vertical-align: middle; padding: 0 10px; }
 .header-date-range {
-  li { margin-right: 5px; }
+  li { margin-right: 0px; padding: 0; padding-left: 4px; }
 }
 
 .header-day-of-week {
@@ -106,7 +122,7 @@ input:focus { outline: none; }
 }
 // places list
 
-@list_item_height: 80px;
+@list_item_height: 90px;
 .places-list { background-color: #fff; position: relative; }
 
 .places-list-item {
