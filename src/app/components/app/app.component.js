@@ -1,6 +1,5 @@
-// TODO: autocomplete
+// TODO: sorting
 // TODO: add range picker
-// TODO: baseTime picker
 // TODO: url logic initialization
 // TODO: settings
 // TODO: change time format
@@ -132,6 +131,19 @@ class Controller {
   getFromLocalStorage() {
     return this.$ls.get('locations');
   }
+
+  sort(direction) {
+    let baseIndex = _.findIndex(this.locations, location => location.isHome);
+
+    if (direction === 'up' && baseIndex === 0) return;
+    if (direction === 'down' && baseIndex === this.locations.length - 1) return;
+
+    let swapIndex = direction === 'up' ? baseIndex - 1 : baseIndex + 1;
+    let b = this.locations[swapIndex];
+    this.locations[swapIndex] = this.locations[baseIndex];
+    this.locations[baseIndex] = b;
+    this.saveToLocalStorage();
+  };
 }
 
 const componentDefinition = {
