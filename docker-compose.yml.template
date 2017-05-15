@@ -1,0 +1,10 @@
+timeconverter-web:
+  image: node
+  working_dir: /home/build
+  command: bash -c "npm i -g bower gulp && npm i && bower i --allow-root && npm run serve"
+  volumes:
+    - ./:/home/build
+  ports:
+     - "3000:3000"
+  environment:
+    - NODE_ENV=dev

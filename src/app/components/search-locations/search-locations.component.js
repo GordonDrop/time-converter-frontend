@@ -36,7 +36,7 @@ class Controller {
   }
 
   searchRequest() {
-    this.toggleLoading();
+    this.loading = true;
     this.searchResultsEmpty = false;
 
     this.ApiService.searchLocations({q: this.query})
@@ -44,6 +44,7 @@ class Controller {
         this.searchResults = locations;
         this.searchResultsEmpty = this.searchResults.length < 1;
         this.searchTime = Date.now();
+        this.loading = false;
       });
   }
 

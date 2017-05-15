@@ -1,5 +1,7 @@
-// TODO: sorting
+// TODO: drag sorting
 // TODO: add range picker
+// TODO: add date sharing
+// TODO: timezone guess
 // TODO: url logic initialization
 // TODO: settings
 // TODO: change time format
