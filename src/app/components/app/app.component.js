@@ -18,33 +18,32 @@ class Controller {
     this.DateTimeService = DateTimeService;
     this.$ls = localStorageService;
     this.loading = true;
-    this.baseTime = Date.now();
 
     this.initStrategies = {
       guessTimezone: 'guessTimezone',
-      setDefaults: 'guessTimezone',
-      setFromLocalStorage: 'setFromLocalStorage',
-      setSetUrlState: 'setSetUrlState'
+      initWithDefaults: 'initWithDefaults',
+      initFromLocalStorage: 'initFromLocalStorage',
+      initFromUrlState: 'initFromUrlState'
     }
   }
 
   $onInit() {
     // TODO: deep validation
-    let savedLocations = this.getFromLocalStorage();
     let initStrategy;
 
-    if (savedLocations) {
-      initStrategy = 'setFromLocalStorage';
+    if (this.isDataInLsExists()) {
+      initStrategy = 'initFromLocalStorage';
     } else {
-      initStrategy = 'setDefaults';
+      initStrategy = 'initWithDefaults';
     }
 
+    this.baseTime = this.$ls.get('baseTime') || Date.now();
     this[initStrategy]();
   }
 
   guessTimezone() {}
 
-  setDefaults() {
+  initWithDefaults() {
     this.ApiService.getLocations(this.deafults)
       .then(
         locations => {
@@ -59,7 +58,7 @@ class Controller {
       )
   }
 
-  setFromLocalStorage() {
+  initFromLocalStorage() {
     this.locations = this.getFromLocalStorage();
     let baseIndex = _.findIndex(this.locations, location => location.isHome);
     this.setBaseLocation(baseIndex);
@@ -75,6 +74,7 @@ class Controller {
     });
   }
 
+  // TODO: move me please
   isDayBoundary(timestamp, location, boundary) {
     let method = boundary === 'start' ? 'startOf' : 'endOf';
 
@@ -89,7 +89,7 @@ class Controller {
     return time === boundaryTime;
   }
 
-  setSetUrlState() {}
+  initFromUrlState() {}
 
   toggleLoading() {
     this.loading = !this.loading;
@@ -119,6 +119,10 @@ class Controller {
       this.setBaseLocation(0);
     }
     this.saveToLocalStorage()
+  }
+
+  isDataInLsExists() {
+    return !!this.$ls.get('locations').length;
   }
 
   saveToLocalStorage() {

@@ -1,8 +1,9 @@
-const KEYS = {
-  UP: 38,
-  DOWN: 40,
-  ENTER: 13
-};
+// TODO: maybe key nav?
+// const KEYS = {
+//   UP: 38,
+//   DOWN: 40,
+//   ENTER: 13
+// };
 
 class Controller {
   constructor(
@@ -56,7 +57,6 @@ class Controller {
   }
 
   addLocation(location) {
-    console.log(this);
     // TODO: if locations are equal and isHome, than both should be home
     let tz = location.timezone.timeZoneId;
     location.relativeOffset = this.DateTimeService.getRelativeOffset(tz, this.baseTz);

@@ -5,9 +5,12 @@ angular
 function Service() {
   return {
     createUtcRange: createUtcRange,
-    getRelativeOffset: getRelativeOffset
+    getRelativeOffset: getRelativeOffset,
+    createWeekRange: createWeekRange,
+    isWeekend: isWeekend
   };
 
+  // SHOULD range of 7 dates with baseTime in the middle
   function createUtcRange(baseTime, baseTz) {
     let start = moment
       .tz(baseTime, baseTz)
@@ -19,6 +22,23 @@ function Service() {
 
     _.times(24, (time) => {
       current = moment.tz(start, baseTz).add(time, 'hour').valueOf();
+      utcRange.push(current);
+    });
+
+    return utcRange;
+  }
+
+  function createWeekRange(date, tz) {
+    let start = moment
+      .tz(date, tz)
+      .subtract(3, 'day')
+      .valueOf();
+
+    let current = start;
+    let utcRange = [];
+
+    _.times(7, (time) => {
+      current = moment.tz(start, tz).add(time, 'day').valueOf();
       utcRange.push(current);
     });
 
@@ -39,5 +59,11 @@ function Service() {
       value: diffInMinutes,
       viewValue: viewValue
     }
+  }
+
+  function isWeekend(date, tz) {
+    let day = moment.tz(date, tz).day();
+
+    return (day === 0) || (day === 6);
   }
 }

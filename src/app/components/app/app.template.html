@@ -31,14 +31,10 @@
 
       <div class="header-date-range header-item">
         <!-- TODO: MOVE TO DIRECTIVE -->
-        <ul class="list-inline list-unstyled">
-          <li ng-repeat="date in [13,14,15,16,17,18,19]">
-            <button class="header-datepicker header-item"
-                    type="button">
-              {{date}}
-            </button>
-          </li>
-        </ul>
+        <week-range base-time="$ctrl.baseTime"
+                    hours-range="$ctrl.utcRange"
+                    base-time-zone="$ctrl.baseTimeZone">
+        </week-range>
       </div>
 
       <button class="header-datepicker header-item"

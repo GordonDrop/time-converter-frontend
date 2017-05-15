@@ -91,6 +91,19 @@ input:focus { outline: none; }
   li { margin-right: 5px; }
 }
 
+.header-day-of-week {
+  min-width: 35px; height: 35px; cursor: pointer; font-size: 12px; vertical-align: middle; text-align: center;
+  line-height: 35px; padding: 0 4px; display: inline-block; position: relative;
+  color: #8ba3c9; background-color: #EDFBFF; border: 1px solid #8ba3c9;
+
+  &.is-weekend { color: tomato; }
+  &:hover, &.is-active { line-height: 35px; vertical-align: middle; background-color: #8BA3C9; color: white;
+    border: 1px solid black; }
+
+  &.is-reversable { padding-right: 20px; }
+  .reverse-btn { position: absolute; top: 12px; right: 4px; cursor: pointer; z-index: 1;}
+  .reverse-btn:hover { color: black; }
+}
 // places list
 
 @list_item_height: 80px;
