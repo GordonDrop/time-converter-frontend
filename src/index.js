@@ -5,5 +5,6 @@ angular
       'LocalStorageModule',
       'angularMoment',
       'angular-click-outside',
-      'ui.bootstrap'
+      'ui.bootstrap',
+      'ui.sortable'
     ]);

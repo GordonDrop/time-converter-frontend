@@ -163,8 +163,11 @@ input:focus { outline: none; }
   .fa { color: black; }
 }
 
-.places-list-item-desc { width: 235px; cursor: move; padding: 5px;
-  overflow: hidden; white-space: nowrap; }
+.places-list-item-desc {
+  width: 235px; cursor: move; padding: 5px; overflow: hidden; white-space: nowrap;
+
+  .places-list-item.is-disabled & { cursor: default; }
+}
 
 .places-list-item-city { font-size: 20px; vertical-align: middle; }
 .places-list-item-tz { display: inline-block; padding: 3px; background-color: #eee;

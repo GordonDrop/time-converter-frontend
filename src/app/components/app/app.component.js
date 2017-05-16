@@ -29,6 +29,15 @@ class Controller {
     };
 
     this.settingsDefaults = DEFAULT_SETTINGS;
+
+    this.sortableOptions = {
+      stop: this.saveToLocalStorage.bind(this),
+      start: (e, ui) => {
+        console.log(e, ui);
+      },
+      handle: '> .handle',
+      items: "li:not(.is-disabled)"
+    }
   }
 
   $onInit() {
@@ -127,11 +136,10 @@ class Controller {
   }
 
   isDataInLsExists() {
-    return !!this.$ls.get('locations').length;
+    return !!(this.$ls.get('locations') && this.$ls.get('locations').length);
   }
 
   isWeekend(date, tz) {
-    console.log(this.DateTimeService.isWeekend(date, tz));
     return this.DateTimeService.isWeekend(date, tz);
   }
 

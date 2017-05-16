@@ -43,9 +43,15 @@
     </header>
 
     <div class="places-list">
-      <ul class="list-unstyled">
+      <ul class="list-unstyled"
+          id="places-list"
+          ui-sortable="$ctrl.sortableOptions"
+          ng-model="$ctrl.locations">
+
         <li ng-repeat="location in $ctrl.locations track by $index"
+            ng-class="{ 'is-disabled': $ctrl.locations.length < 2 }"
             class="places-list-item clearfix">
+
           <div class="places-list-icons pull-left">
             <i class="fa fa-remove"
                ng-click="$ctrl.removeLocation($index)"
@@ -66,7 +72,7 @@
                   class="fa fa-home"></span>
           </div>
 
-          <div class="places-list-item-desc pull-left">
+          <div class="places-list-item-desc handle pull-left">
             <span class="places-list-item-city"><b>{{location.city}}</b></span><br>
             <span class="places-list-item-country">{{location.country}}</span><br>
             <span class="places-list-item-tz"
