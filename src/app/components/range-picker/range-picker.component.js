@@ -1,8 +1,8 @@
 class Controller {
-  constructor($element) {
+  constructor($element, $timeout, DateTimeService) {
     this.$el = $element;
-    this.choosing = false;
-    this.draging = false;
+    this.$timeout = $timeout;
+    this.DateTimeService = DateTimeService;
   }
 
   $onInit() {
@@ -11,9 +11,13 @@ class Controller {
   }
 
   init() {
+    this.draging = false;
     this.$overlay = angular.element(this.$el).find('.range-picker-overlay');
     this.$handle = angular.element(this.$el).find('.range-picker-handle');
+    this.$handleLeft = angular.element(this.$el).find('.range-picker-handle-overlay-left');
+    this.$handleRight = angular.element(this.$el).find('.range-picker-handle-overlay-right');
     this.$elWidth = this.$overlay.width();
+
     this.intervals = 46;
     this.hourIntervals = 24;
     this.intervalWidth = Math.floor(this.$elWidth/this.intervals);
@@ -42,7 +46,7 @@ class Controller {
     if (this.choosing) return;
     this.unbindMoveEvents();
     this.setChoosingState(e);
-    // TODO: set data
+    this.updateData();
   }
 
   cancelHandler() {
@@ -77,6 +81,7 @@ class Controller {
       'right': 'auto',
       'left': this.cellWidth * 12 + 'px'
     });
+    this.choosenInterval = {};
   }
 
   setChoosingState(e) {
@@ -92,42 +97,85 @@ class Controller {
       'right': positionRight + 'px'
     });
 
-    // TODO: UPDATE DATA
+    this.moveOverlays();
   }
 
-  startDrag(e, direction) {
+  startDrag(e) {
     e.stopPropagation();
     this.draging = true;
-    let startPosition = e.pageX;
+    let startPosition = Math.floor(e.pageX);
 
     $(document).on('mousemove.drag', (e) => {
       e.preventDefault();
-      let diffX = Math.floor(Math.abs(startPosition - e.pageX));
-      let newX;
-      // TODO: add side switching
-      // TODO: interval treshold check
-      // TODO: add data sync
-      // TODO: borders check
-      if (direction === 'right') {
-        let leftPosition = this.$overlay.offset().left + this.$overlay.outerWidth();
-        newX = leftPosition - e.pageX;
-      } else {
-        newX = e.pageX - this.$overlay.offset().left;
-      }
+      let diffX = Math.abs(startPosition - Math.floor(e.pageX));
 
-      newX = Math.floor(Math.abs(newX));
-      this.$handle.css(direction, newX);
+      if (diffX >= this.intervalWidth) {
+        let direction = this.detectDirection(e.pageX);
+        this.moveBorder(direction, Math.floor(e.pageX));
+        this.moveOverlays();
+        startPosition = Math.floor(e.pageX);
+        // dirty hack -> $digest :-(
+        this.$timeout(this.updateData.bind(this), 0);
+      }
     });
 
     this.$overlay.on('mouseleave.drag', this.endDrag.bind(this));
     $(document).on('mouseup.drag', this.endDrag.bind(this));
   }
 
+  moveBorder(direction, mouseX) {
+    let newX;
+    if (direction === 'right') {
+      let leftPosition = this.$overlay.offset().left + this.$overlay.outerWidth();
+      newX = leftPosition - mouseX;
+    } else {
+      newX = mouseX - this.$overlay.offset().left;
+    }
+
+    newX = Math.floor(Math.abs(newX)/this.intervalWidth)*this.intervalWidth;
+
+    this.$handle.css(direction, newX);
+  }
+
+  moveOverlays() {
+    let positionOfLeft = this.$overlay.outerWidth() - this.$handle.position().left;
+    let positionOfRight = this.$handle.position().left + this.$handle.outerWidth();
+
+    this.$handleLeft.css({
+      'right': positionOfLeft + 'px'
+    });
+
+    this.$handleRight.css({
+      'left': positionOfRight + 'px'
+    });
+  }
+
+  detectDirection(mouseX) {
+    let handleMiddleX = this.$handle.offset().left + this.$handle.outerWidth() / 2;
+    return handleMiddleX > mouseX ? 'left' : 'right';
+  }
+
+  updateData() {
+    let dayStart = moment.tz(this.baseTime, this.baseTz).startOf('day').valueOf();
+    let halfHoursMilliseconds = 30 * 60 * 1000;
+    let start = parseInt(this.$handle.position().left / this.intervalWidth);
+    let end = start + parseInt(this.$handle.outerWidth() / this.intervalWidth);
+    let duration = (end - start) * 30;
+
+    // converting to minutes
+    this.choosenInterval = {
+      start: dayStart + start * halfHoursMilliseconds,
+      end: dayStart + end * halfHoursMilliseconds,
+      duration: this.DateTimeService.getDurationString(duration)
+    };
+    console.log(this.choosenInterval);
+  }
+
   endDrag() {
     console.log('endDrag');
     $(document).off('mousemove.drag');
     $(document).off('mouseup.drag');
-    $(this.$overlay).off('mouseleave.drag');
+    this.$overlay.off('mouseleave.drag');
     this.draging = false;
   }
 }
@@ -135,8 +183,10 @@ class Controller {
 const componentDefinition = {
   templateUrl: 'app/components/range-picker/range-picker.template.html',
   bindings: {
-    choosenInterval: '<',
-    onUpdate: '&'
+    choosenInterval: '=',
+    choosing: '=',
+    baseTime: '<',
+    baseTz: '<'
   },
   controller: Controller
 };

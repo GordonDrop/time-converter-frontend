@@ -7,7 +7,8 @@ function Service() {
     createUtcRange: createUtcRange,
     getRelativeOffset: getRelativeOffset,
     createWeekRange: createWeekRange,
-    isWeekend: isWeekend
+    isWeekend: isWeekend,
+    getDurationString: getDurationString
   };
 
   // SHOULD range of 7 dates with baseTime in the middle
@@ -65,5 +66,17 @@ function Service() {
     let day = moment.tz(date, tz).day();
 
     return (day === 0) || (day === 6);
+  }
+
+  // getDurationString in hh:mm format
+  function getDurationString(timeInMinutes) {
+    let hours = Math.floor(timeInMinutes / 60);
+    let minutes = timeInMinutes % 60;
+
+    return twoDigitsFormat(hours) + ':' + twoDigitsFormat(minutes);
+  }
+
+  function twoDigitsFormat(n) {
+    return (n < 10 ? '0' : '') + n;
   }
 }

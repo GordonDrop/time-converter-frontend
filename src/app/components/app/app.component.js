@@ -21,6 +21,7 @@ class Controller {
     this.DateTimeService = DateTimeService;
     this.$ls = localStorageService;
     this.loading = true;
+    this.choosing = false;
 
     this.initStrategies = {
       guessTimezone: 'guessTimezone',
@@ -53,7 +54,7 @@ class Controller {
 
     this.baseTime = this.$ls.get('baseTime') || Date.now();
     this.settings = this.$ls.get('settings') || this.settingsDefaults;
-    this.chooseInterval = this.defaultInterval;
+    this.choosenInterval = {};
     this[initStrategy]();
   }
 

@@ -19,7 +19,7 @@ input:focus { outline: none; }
 .container-fixed { width: 1050px; margin: 0 auto; }
 
 .application { position: relative; border: 1px solid #eee; border-radius: 3px 3px 0 0;
-  background-color: #fff;  margin-top: 40px; }
+  background-color: #fff;  margin-top: 40px; min-height: 80px; }
 
 .load-spinner {
   width: 49px; height: 49px; border: 3px solid #ccc;
@@ -137,6 +137,9 @@ input:focus { outline: none; }
 
   &.is-active span { border-color: #ccc; background-color: #b9fbff; font-weight: bold; }
 }
+
+.header-time-range { width: 305px; font-size: 20px; color: #888; line-height: 35px;
+  vertical-align: middle; padding: 0 10px; }
 // places list
 
 @list_item_height: 90px;
@@ -150,26 +153,32 @@ input:focus { outline: none; }
 }
 
 .places-list-icons {
-  width: 36px; font-size: 18px; text-align: center; position: relative;
+  width: 15px; font-size: 18px; text-align: center; position: relative;
   .fa { cursor: pointer; position: absolute; top: 24px; right: 0; left: 0;
     margin: auto; }
   .fa:hover { color: tomato; }
   .fa-home { top: 42px; }
 }
 
-.places-list-time-offset { width: 40px; font-size: 18px;
+.places-list-time-offset { width: 30px; font-size: 18px;
  color: #ffb500; text-align: center; line-height: @list_item_height;
 
   .fa { color: black; }
 }
 
 .places-list-item-desc {
-  width: 235px; cursor: move; padding: 5px; overflow: hidden; white-space: nowrap;
-
+  width: 266px; cursor: move; padding: 5px; overflow: hidden; white-space: nowrap;
+  position: relative;
   .places-list-item.is-disabled & { cursor: default; }
 }
 
-.places-list-item-city { font-size: 20px; vertical-align: middle; }
+.places-list-item-time {
+  position: absolute; top: 18px; right: 5px; text-align: right; font-size: 12px;
+
+  &.start {right: 80px;}
+}
+
+.places-list-item-city { font-size: 12px; vertical-align: middle; line-height: 14px;}
 .places-list-item-tz { display: inline-block; padding: 3px; background-color: #eee;
   border-radius: 3px; font-size: 10px; border: 1px solid #ccc; }
 .places-list-item-country { font-size: 12px; }
@@ -198,7 +207,18 @@ input:focus { outline: none; }
 
 // range-picker
 .range-picker-overlay { position: absolute; top: 27px; bottom: 33px;
-  background: rgba(255,0,0,0.1); left: 317px; z-index: 1; right: 11px; }
+  left: 317px; z-index: 1; right: 11px; background-color: transparent;
+}
+
+.range-picker-handle-overlay {
+  position: absolute; z-index: 1; background-color: transparent; top: 0;
+  right: 0; display: none; bottom: 0;
+
+  &-left { left: 0; }
+  &-right { right: 0; }
+
+  .range-picker-overlay.is-choosing & {background: rgba(255,255,255,0.5); display: block;}
+}
 
 .range-picker-handle { position: absolute; z-index: 1; top: -2px; bottom: -2px;
   border: 2px solid black; border-radius: 3px;
@@ -207,7 +227,7 @@ input:focus { outline: none; }
 }
 
 .range-picker-drag-handle { position: absolute; top: 0; bottom: 0;
-  background-color: transparent; width: 7px;
+  background-color: transparent; width: 5px;
 
   &-left { left: -2px; border-left: 2px solid transparent; cursor: w-resize; z-index: 2;}
   &-right { right: -2px; border-right: 2px solid transparent; cursor: e-resize; z-index:3;}

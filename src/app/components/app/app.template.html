@@ -8,22 +8,32 @@
   <div class="application"
        ng-if="!$ctrl.loading">
     <header class="header">
-      <div class="header-sort header-item">
-        <i class="header-sort-btn fa fa-caret-up"
-           ng-click="$ctrl.sort('up')"
-           type="button">
-        </i>
-        <i class="header-sort-btn fa fa-caret-down"
-           ng-click="$ctrl.sort('down')"
-           type="button">
-        </i>
+
+      <div class="header-item"
+           ng-show="!$ctrl.choosing">
+        <div class="header-sort header-item">
+          <i class="header-sort-btn fa fa-caret-up"
+             ng-click="$ctrl.sort('up')"
+             type="button">
+          </i>
+          <i class="header-sort-btn fa fa-caret-down"
+             ng-click="$ctrl.sort('down')"
+             type="button">
+          </i>
+        </div>
+
+        <div class="header-item header-search">
+          <search-locations
+            base-tz="$ctrl.baseTimeZone"
+            locations="$ctrl.locations">
+          </search-locations>
+        </div>
       </div>
 
-      <div class="header-item header-search">
-        <search-locations
-          base-tz="$ctrl.baseTimeZone"
-          locations="$ctrl.locations">
-        </search-locations>
+      <div class="header-time-range header-item clearfix"
+           ng-show="$ctrl.choosing">
+        <span class="pull-left">Choosen interval:</span>
+        <span class="pull-right">{{$ctrl.choosenInterval.duration}}</span>
       </div>
 
       <base-time-selector base-time="$ctrl.baseTime"
@@ -43,7 +53,11 @@
     </header>
 
     <div class="places-list">
-      <range-picker choosen-interval="$ctrl.chosenInterval">
+      <range-picker
+        base-time="$ctrl.baseTime"
+        base-tz="$ctrl.baseTimeZone"
+        choosing="$ctrl.choosing"
+        choosen-interval="$ctrl.choosenInterval">
       </range-picker>
       <ul class="list-unstyled"
           id="places-list"
@@ -82,6 +96,26 @@
                   uib-tooltip="{{location.timezone.timeZoneName}}">
               {{location.timezone.abbr}}
             </span>
+
+            <div class="places-list-item-time"
+                 ng-show="!$ctrl.choosing">
+              <b>{{$ctrl.baseTime|amTimezone:location.timezone.timeZoneId|amDateFormat:'HH:mm'}}</b><br>
+              {{$ctrl.baseTime|amTimezone:location.timezone.timeZoneId|amDateFormat:'ddd, MMM DD'}}
+            </div>
+
+            <div class="places-list-item-time start"
+                 ng-show="$ctrl.choosing">
+              <b>{{$ctrl.choosenInterval.start|amTimezone:location.timezone.timeZoneId|amDateFormat:'HH:mm'}} -</b><br>
+              {{$ctrl.choosenInterval.start|amTimezone:location.timezone.timeZoneId|amDateFormat:'ddd, MMM DD'}}&nbsp;
+            </div>
+
+            <div class="places-list-item-time end"
+                 ng-show="$ctrl.choosing">
+              <div class="text-left">
+                <b>{{$ctrl.choosenInterval.end|amTimezone:location.timezone.timeZoneId|amDateFormat:'HH:mm'}}</b><br>
+              </div>
+              {{$ctrl.choosenInterval.end|amTimezone:location.timezone.timeZoneId|amDateFormat:'ddd, MMM DD'}}
+            </div>
           </div>
 
           <ul class="list-unstyled list-inline">
