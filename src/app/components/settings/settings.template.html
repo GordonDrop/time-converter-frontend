@@ -1,0 +1,15 @@
+<div class="header-settings header-item">
+  <button class="header-btn header-item"
+          type="button">
+    <i class="fa fa-cog"></i>
+  </button>
+
+  <ul class="header-settings-list list-unstyled">
+    <li class="header-settings-item"
+        ng-click="$ctrl.toggle(settingsItem)"
+        ng-class="{'is-active': settingsItem.value}"
+        ng-repeat="settingsItem in $ctrl.settings">
+      <span>{{settingsItem.label}}</span>
+    </li>
+  </ul>
+</div>

@@ -31,10 +31,8 @@
                   base-time-zone="$ctrl.baseTimeZone">
       </base-time-selector>
 
-      <button class="header-btn header-item"
-              type="button">
-        <i class="fa fa-cog"></i>
-      </button>
+      <settings settings="$ctrl.settings">
+      </settings>
 
       <!-- TODO: MOVE TO DIRECTIVE -->
       <a class="header-link header-item"
@@ -71,8 +69,11 @@
           <div class="places-list-item-desc pull-left">
             <span class="places-list-item-city"><b>{{location.city}}</b></span><br>
             <span class="places-list-item-country">{{location.country}}</span><br>
-            <span class="places-list-item-tz">{{location.timezone.abbr}}</span> -
-            <span class="places-list-item-country">{{location.timezone.timeZoneName}}</span>
+            <span class="places-list-item-tz"
+                  ng-if="$ctrl.settings.timezones.value"
+                  uib-tooltip="{{location.timezone.timeZoneName}}">
+              {{location.timezone.abbr}}
+            </span>
           </div>
 
           <ul class="list-unstyled list-inline">
@@ -81,7 +82,8 @@
             <li ng-repeat="timestamp in $ctrl.utcRange track by $index"
                 ng-class="{
                   'start': $ctrl.isDayBoundary(timestamp, location, 'start'),
-                  'end': $ctrl.isDayBoundary(timestamp, location, 'end')
+                  'end': $ctrl.isDayBoundary(timestamp, location, 'end'),
+                  'weekend': $ctrl.isWeekend(timestamp, location.timezone.timeZoneId)
                 }"
                 class="range-item">
               <span ng-show="!$ctrl.isDayBoundary(timestamp, location, 'start')">

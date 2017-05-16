@@ -10,6 +10,7 @@
 class Controller {
   constructor(
     DEFAULT_TIMEZONES,
+    DEFAULT_SETTINGS,
     ApiService,
     DateTimeService,
     localStorageService
@@ -25,7 +26,9 @@ class Controller {
       initWithDefaults: 'initWithDefaults',
       initFromLocalStorage: 'initFromLocalStorage',
       initFromUrlState: 'initFromUrlState'
-    }
+    };
+
+    this.settingsDefaults = DEFAULT_SETTINGS;
   }
 
   $onInit() {
@@ -39,6 +42,7 @@ class Controller {
     }
 
     this.baseTime = this.$ls.get('baseTime') || Date.now();
+    this.settings = this.$ls.get('settings') || this.settingsDefaults;
     this[initStrategy]();
   }
 
@@ -124,6 +128,11 @@ class Controller {
 
   isDataInLsExists() {
     return !!this.$ls.get('locations').length;
+  }
+
+  isWeekend(date, tz) {
+    console.log(this.DateTimeService.isWeekend(date, tz));
+    return this.DateTimeService.isWeekend(date, tz);
   }
 
   saveToLocalStorage() {
