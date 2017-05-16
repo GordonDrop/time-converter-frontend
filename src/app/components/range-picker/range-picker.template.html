@@ -1,8 +1,9 @@
 <div class="range-picker-overlay"
-     ng-class="{'is-choosing': $ctrl.choosing }"
-     click-outside="$ctrl.cancelHandler()">
+     ng-class="{'is-choosing': $ctrl.choosing }">
+
   <div class="range-picker-handle-overlay range-picker-handle-overlay-left"></div>
   <div class="range-picker-handle-overlay range-picker-handle-overlay-right"></div>
+
   <div class="range-picker-handle"
        ng-click="$ctrl.clickHandler($event)"
        ng-class="{'is-choosing': $ctrl.choosing }">

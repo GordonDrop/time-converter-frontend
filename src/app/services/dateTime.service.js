@@ -8,7 +8,8 @@ function Service() {
     getRelativeOffset: getRelativeOffset,
     createWeekRange: createWeekRange,
     isWeekend: isWeekend,
-    getDurationString: getDurationString
+    getDurationString: getDurationString,
+    formatChooseTime: formatChooseTime
   };
 
   // SHOULD range of 7 dates with baseTime in the middle
@@ -78,5 +79,23 @@ function Service() {
 
   function twoDigitsFormat(n) {
     return (n < 10 ? '0' : '') + n;
+  }
+
+  function formatChooseTime(choosenTime, locations) {
+    let result;
+    let format = 'HH:mm  ddd, MMM DD Y';
+    let newline = '\r\n';
+
+    result = locations.map(location => {
+      let arr = [];
+      arr[0] = `${location.city}, ${location.country}`;
+      arr[1] = moment.tz(choosenTime.start, location.timezone.timeZoneId).format(format);
+      arr[2] = moment.tz(choosenTime.end, location.timezone.timeZoneId).format(format);
+      arr[3] = newline;
+
+      return arr.join(newline);
+    });
+
+    return result.join(newline);
   }
 }

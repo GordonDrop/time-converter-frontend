@@ -101,7 +101,7 @@ input:focus { outline: none; }
   .form-control { display: none; }
 }
 
-.header-btn { width: 35px; height: 35px; cursor: pointer; font-size: 18px; vertical-align: middle; }
+.header-btn { padding: 0 10px; height: 35px; cursor: pointer; font-size: 18px; vertical-align: middle; }
 .header-link { line-height: 35px; vertical-align: middle; padding: 0 10px; }
 .header-date-range {
   li { margin-right: 0px; padding: 0; padding-left: 4px; }
@@ -121,11 +121,10 @@ input:focus { outline: none; }
   .reverse-btn:hover { color: black; }
 }
 
-
 .header-settings {
   position: relative;
 
-  &-list { position: absolute; top: 35px; left: 0; z-index: 1; border: 1px solid #eee; display: none; }
+  &-list { position: absolute; top: 35px; left: 0; z-index: 3; border: 1px solid #eee; display: none; }
 
   &:hover .header-settings-list { display: block; }
 }
@@ -140,6 +139,7 @@ input:focus { outline: none; }
 
 .header-time-range { width: 305px; font-size: 20px; color: #888; line-height: 35px;
   vertical-align: middle; padding: 0 10px; }
+
 // places list
 
 @list_item_height: 90px;
@@ -212,10 +212,10 @@ input:focus { outline: none; }
 
 .range-picker-handle-overlay {
   position: absolute; z-index: 1; background-color: transparent; top: 0;
-  right: 0; display: none; bottom: 0;
+  display: none; bottom: -1px;
 
-  &-left { left: 0; }
-  &-right { right: 0; }
+  &-left { left: -1px; }
+  &-right { right: -1px; }
 
   .range-picker-overlay.is-choosing & {background: rgba(255,255,255,0.5); display: block;}
 }

@@ -36,12 +36,21 @@
         <span class="pull-right">{{$ctrl.choosenInterval.duration}}</span>
       </div>
 
-      <base-time-selector base-time="$ctrl.baseTime"
-                  hours-range="$ctrl.utcRange"
-                  base-time-zone="$ctrl.baseTimeZone">
+      <base-time-selector
+        base-time="$ctrl.baseTime"
+        hours-range="$ctrl.utcRange"
+        base-time-zone="$ctrl.baseTimeZone"
+        ng-show="!$ctrl.choosing">
       </base-time-selector>
 
-      <settings settings="$ctrl.settings">
+      <share-time-controls
+        ng-show="$ctrl.choosing"
+        locations="$ctrl.locations"
+        choosen-interval="$ctrl.choosenInterval">
+      </share-time-controls>
+
+      <settings
+        settings="$ctrl.settings">
       </settings>
 
       <!-- TODO: MOVE TO DIRECTIVE -->
