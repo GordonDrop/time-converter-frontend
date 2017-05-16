@@ -70,6 +70,7 @@ class Controller {
     this.choosing = false;
     this.$handle.css({
       'width': this.cellWidth + 'px',
+      'right': 'auto',
       'left': this.cellWidth * 12 + 'px'
     });
   }
@@ -77,15 +78,17 @@ class Controller {
   setChoosingState(e) {
     this.choosing = true;
 
-    let positionLeft = this.$handle.position().left;
-    let position = positionLeft - positionLeft % this.intervalWidth;
+    let handleLeft = this.$handle.position().left;
+    let positionLeft = handleLeft - handleLeft % this.intervalWidth;
+    positionLeft = positionLeft + this.intervalWidth;
 
-    // lazy hack
-    position = position + + this.intervalWidth;
+    let positionRight = this.$overlay.width() - positionLeft;
+    positionRight = positionRight - this.intervalWidth;
 
     this.$handle.css({
-      'width': this.intervalWidth + 'px',
-      'left': position + 'px'
+      'width': 'auto',
+      'left': positionLeft + 'px',
+      'right': positionRight + 'px'
     });
   }
 }
