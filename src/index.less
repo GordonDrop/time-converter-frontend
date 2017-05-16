@@ -207,10 +207,10 @@ input:focus { outline: none; }
 }
 
 .range-picker-drag-handle { position: absolute; top: 0; bottom: 0;
-  background-color: transparent; width: 7px; z-index: 2;
+  background-color: transparent; width: 7px;
 
-  &-left { left: -2px; border-left: 2px solid transparent; cursor: w-resize;}
-  &-right { right: -2px; border-right: 2px solid transparent; cursor: e-resize;}
+  &-left { left: -2px; border-left: 2px solid transparent; cursor: w-resize; z-index: 2;}
+  &-right { right: -2px; border-right: 2px solid transparent; cursor: e-resize; z-index:3;}
 
   &-left:hover { left: -2px; border-left: 2px solid red; }
   &-right:hover { right: -2px; border-right: 2px solid red; }

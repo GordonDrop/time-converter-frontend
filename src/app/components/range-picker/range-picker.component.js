@@ -2,11 +2,12 @@ class Controller {
   constructor($element) {
     this.$el = $element;
     this.choosing = false;
+    this.draging = false;
   }
 
   $onInit() {
     this.init();
-    this.bindEvents();
+    this.bindMoveEvents();
   }
 
   init() {
@@ -22,35 +23,38 @@ class Controller {
   }
 
   $onDestroy() {
-    this.unbindEvents()
+    this.unbindMoveEvents()
   }
 
-  bindEvents() {
+  bindMoveEvents() {
     this.$overlay.on('mouseenter.rangePicker', () => {
-      this.$overlay.on('mousemove.rangePicker', this.followMouse.bind(this));
+      $(document).on('mousemove.rangePicker', this.followMouse.bind(this));
     });
 
     this.$overlay.on('mouseleave.rangePicker', () => {
-      this.$overlay.off('mousemove.rangePicker');
+      $(document).off('mousemove.rangePicker');
       this.setDefaults();
     });
   }
 
-  clickHandler() {
+  clickHandler(e) {
+    e.preventDefault();
     if (this.choosing) return;
-    this.unbindEvents();
-    this.setChoosingState();
+    this.unbindMoveEvents();
+    this.setChoosingState(e);
     // TODO: set data
   }
 
   cancelHandler() {
-    this.bindEvents();
+    if (this.draging) return;
+    console.log('canceled');
+    this.bindMoveEvents();
     this.setDefaults();
   }
 
-  unbindEvents() {
+  unbindMoveEvents() {
+    $(document).off('mousemove.rangePicker');
     this.$overlay.off('mouseenter.rangePicker');
-    this.$overlay.off('mousemove.rangePicker');
     this.$overlay.off('mouseleave.rangePicker');
   }
 
@@ -78,18 +82,53 @@ class Controller {
   setChoosingState(e) {
     this.choosing = true;
 
-    let handleLeft = this.$handle.position().left;
+    let handleLeft = e.pageX - this.$overlay.offset().left;
     let positionLeft = handleLeft - handleLeft % this.intervalWidth;
-    positionLeft = positionLeft + this.intervalWidth;
-
-    let positionRight = this.$overlay.width() - positionLeft;
-    positionRight = positionRight - this.intervalWidth;
+    let positionRight = this.$overlay.width() - positionLeft - this.intervalWidth;
 
     this.$handle.css({
       'width': 'auto',
       'left': positionLeft + 'px',
       'right': positionRight + 'px'
     });
+
+    // TODO: UPDATE DATA
+  }
+
+  startDrag(e, direction) {
+    e.stopPropagation();
+    this.draging = true;
+    let startPosition = e.pageX;
+
+    $(document).on('mousemove.drag', (e) => {
+      e.preventDefault();
+      let diffX = Math.floor(Math.abs(startPosition - e.pageX));
+      let newX;
+      // TODO: add side switching
+      // TODO: interval treshold check
+      // TODO: add data sync
+      // TODO: borders check
+      if (direction === 'right') {
+        let leftPosition = this.$overlay.offset().left + this.$overlay.outerWidth();
+        newX = leftPosition - e.pageX;
+      } else {
+        newX = e.pageX - this.$overlay.offset().left;
+      }
+
+      newX = Math.floor(Math.abs(newX));
+      this.$handle.css(direction, newX);
+    });
+
+    this.$overlay.on('mouseleave.drag', this.endDrag.bind(this));
+    $(document).on('mouseup.drag', this.endDrag.bind(this));
+  }
+
+  endDrag() {
+    console.log('endDrag');
+    $(document).off('mousemove.drag');
+    $(document).off('mouseup.drag');
+    $(this.$overlay).off('mouseleave.drag');
+    this.draging = false;
   }
 }
 

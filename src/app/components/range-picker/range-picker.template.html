@@ -1,13 +1,15 @@
-<div class="range-picker-overlay">
+<div class="range-picker-overlay"
+     click-outside="$ctrl.cancelHandler()">
   <div class="range-picker-handle"
-       ng-click="$ctrl.clickHandler()"
-       click-outside="$ctrl.cancelHandler()"
+       ng-click="$ctrl.clickHandler($event)"
        ng-class="{'is-choosing': $ctrl.choosing }">
     <div class="range-picker-drag-handle range-picker-drag-handle-left"
+         ng-mousedown="$ctrl.startDrag($event, 'left')"
          ng-show="$ctrl.choosing">
     </div>
 
     <div class="range-picker-drag-handle range-picker-drag-handle-right"
+         ng-mousedown="$ctrl.startDrag($event, 'right')"
          ng-show="$ctrl.choosing"></div>
   </div>
 </div>
