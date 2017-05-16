@@ -1,4 +1,3 @@
-// TODO: drag sorting
 // TODO: add range picker
 // TODO: add date sharing
 // TODO: timezone guess
@@ -11,11 +10,13 @@ class Controller {
   constructor(
     DEFAULT_TIMEZONES,
     DEFAULT_SETTINGS,
+    DEFAULT_INTERVAL,
     ApiService,
     DateTimeService,
     localStorageService
   ) {
     this.deafults = DEFAULT_TIMEZONES;
+    this.defaultInterval = DEFAULT_INTERVAL;
     this.ApiService = ApiService;
     this.DateTimeService = DateTimeService;
     this.$ls = localStorageService;
@@ -37,7 +38,7 @@ class Controller {
       },
       handle: '> .handle',
       items: "li:not(.is-disabled)"
-    }
+    };
   }
 
   $onInit() {
@@ -52,6 +53,7 @@ class Controller {
 
     this.baseTime = this.$ls.get('baseTime') || Date.now();
     this.settings = this.$ls.get('settings') || this.settingsDefaults;
+    this.chooseInterval = this.defaultInterval;
     this[initStrategy]();
   }
 

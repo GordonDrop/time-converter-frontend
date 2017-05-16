@@ -1,0 +1,15 @@
+<div class="range-picker-overlay">
+  {{$ctrl.chooseInterval|json}}
+  {{$ctrl.choosing}}
+  <div class="range-picker-handle"
+       ng-click="$ctrl.clickHandler()"
+       click-outside="$ctrl.cancelHandler()"
+       ng-class="{'is-choosing': $ctrl.choosing }">
+    <div class="range-picker-drag-handle range-picker-drag-handle-left"
+         ng-show="$ctrl.choosing">
+    </div>
+
+    <div class="range-picker-drag-handle range-picker-drag-handle-right"
+         ng-show="$ctrl.choosing"></div>
+  </div>
+</div>

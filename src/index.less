@@ -16,9 +16,9 @@ input:focus { outline: none; }
 .pull-left { float: left; }
 .pull-right { float: right; }
 
-.container-fixed { width: 1024px; margin: 0 auto; }
+.container-fixed { width: 1050px; margin: 0 auto; }
 
-.application { min-height: 240px; position: relative; border: 1px solid #eee; border-radius: 3px 3px 0 0;
+.application { position: relative; border: 1px solid #eee; border-radius: 3px 3px 0 0;
   background-color: #fff;  margin-top: 40px; }
 
 .load-spinner {
@@ -178,7 +178,7 @@ input:focus { outline: none; }
 // range-item
 
 .range-item {
-  width: 29px; height: 29px; display: inline-block; color: #8BA3C9; background-color: #EDFBFF;
+  width: 30px; height: 30px; display: inline-block; color: #8BA3C9; background-color: #EDFBFF;
   line-height: 28px; text-align: center; margin-top: 22px; position: relative;
   border-top: 1px solid #8BA3C9; border-bottom: 1px solid #8BA3C9;
 
@@ -194,4 +194,24 @@ input:focus { outline: none; }
   &.start .day-of-week { position: absolute; top: -16px; left: 0; right: 0; color: black; }
   &.start .day-of-month { position: absolute; top: 2px; left: 0; right: 0; }
   &.start .month { position: absolute; top: 14px; left: 0; right: 0; }
+}
+
+// range-picker
+.range-picker-overlay { position: absolute; top: 27px; bottom: 33px;
+  background: rgba(255,0,0,0.1); left: 317px; z-index: 1; right: 11px; }
+
+.range-picker-handle { position: absolute; z-index: 1; top: -2px; bottom: -2px;
+  border: 2px solid black; border-radius: 3px;
+
+  &.is-choosing { border-color: rgba(0,128,0,0.6); }
+}
+
+.range-picker-drag-handle { position: absolute; top: 0; bottom: 0;
+  background-color: transparent; width: 7px; z-index: 2;
+
+  &-left { left: -2px; border-left: 2px solid transparent; cursor: w-resize;}
+  &-right { right: -2px; border-right: 2px solid transparent; cursor: e-resize;}
+
+  &-left:hover { left: -2px; border-left: 2px solid red; }
+  &-right:hover { right: -2px; border-right: 2px solid red; }
 }
