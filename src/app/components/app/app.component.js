@@ -1,8 +1,6 @@
-// TODO: add range picker
-// TODO: add date sharing
+// TODO: add date sharing via google calendar api
 // TODO: timezone guess
 // TODO: url logic initialization
-// TODO: settings
 // TODO: change time format
 // TODO: add pwa
 

@@ -1,5 +1,7 @@
 <div class="range-picker-overlay"
-     ng-class="{'is-choosing': $ctrl.choosing }">
+     ng-class="{'is-choosing': $ctrl.choosing }"
+     click-outside="$ctrl.cancelHandler()"
+     outside-if-not="not-canceleable">
 
   <div class="range-picker-handle-overlay range-picker-handle-overlay-left"></div>
   <div class="range-picker-handle-overlay range-picker-handle-overlay-right"></div>

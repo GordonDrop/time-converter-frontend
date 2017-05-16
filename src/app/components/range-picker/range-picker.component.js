@@ -18,6 +18,7 @@ class Controller {
     this.$handleRight = angular.element(this.$el).find('.range-picker-handle-overlay-right');
     this.$elWidth = this.$overlay.width();
 
+    // single interval is 30 minutes
     this.intervals = 46;
     this.hourIntervals = 24;
     this.intervalWidth = Math.floor(this.$elWidth/this.intervals);
@@ -51,7 +52,6 @@ class Controller {
 
   cancelHandler() {
     if (this.draging) return;
-    console.log('canceled');
     this.bindMoveEvents();
     this.setDefaults();
   }
@@ -103,6 +103,7 @@ class Controller {
   startDrag(e) {
     e.stopPropagation();
     this.draging = true;
+    $('body').addClass('not-canceleable');
     let startPosition = Math.floor(e.pageX);
 
     $(document).on('mousemove.drag', (e) => {
@@ -120,7 +121,10 @@ class Controller {
     });
 
     this.$overlay.on('mouseleave.drag', this.endDrag.bind(this));
-    $(document).on('mouseup.drag', this.endDrag.bind(this));
+    $(document).on('mouseup.drag', () => {
+      $('body').removeClass('not-canceleable');
+      this.endDrag(this);
+    });
   }
 
   moveBorder(direction, mouseX) {
@@ -160,15 +164,13 @@ class Controller {
     let halfHoursMilliseconds = 30 * 60 * 1000;
     let start = parseInt(this.$handle.position().left / this.intervalWidth);
     let end = start + parseInt(this.$handle.outerWidth() / this.intervalWidth);
-    let duration = (end - start) * 30;
+    let duration = (end - start) * 30; // in minutes
 
-    // converting to minutes
     this.choosenInterval = {
       start: dayStart + start * halfHoursMilliseconds,
       end: dayStart + end * halfHoursMilliseconds,
       duration: this.DateTimeService.getDurationString(duration)
     };
-    console.log(this.choosenInterval);
   }
 
   endDrag() {
