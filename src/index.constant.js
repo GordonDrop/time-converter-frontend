@@ -1,7 +1,7 @@
 angular
   .module('appConverter')
   .constant('DEFAULT_TIMEZONES',
-    ['Europe/London', 'Europe/Moscow', 'Asia/Yekaterinburg']
+    ['Europe/London', 'Africa/Cairo', 'Europe/Moscow']
   )
   .constant('DEFAULT_SETTINGS', {
     weekends: { value: false, label: 'Show weekends' },

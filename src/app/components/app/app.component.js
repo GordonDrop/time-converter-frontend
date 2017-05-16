@@ -50,6 +50,8 @@ class Controller {
       initStrategy = 'initWithDefaults';
     }
 
+    // TODO: time should always be now()
+    // so on init day Start + Time.now()
     this.baseTime = this.$ls.get('baseTime') || Date.now();
     this.settings = this.$ls.get('settings') || this.settingsDefaults;
     this.choosenInterval = {};
